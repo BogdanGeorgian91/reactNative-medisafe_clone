@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "medisafe_clone",
+    "slug": "medisafe_clone",
+    "version": "1.0.0",
+    "sdkVersion": "45.0.0",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["ios", "android", "web"]
+  }
+}
