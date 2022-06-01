@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Input from "../components/Input";
+import { MedContext } from "../state-management/context";
 
 const SetReminderScreen = () => {
+  const medCtx = useContext(MedContext);
+
+  const changeNumHandler = (numValue) => {
+    medCtx.addNumOfPills(numValue);
+  };
+
   return (
     <View>
       <View style={styles.textContainer}>
@@ -16,8 +23,8 @@ const SetReminderScreen = () => {
             placeholder="tap"
             iconSize={0}
             keyboardType="number-pad"
-            // value={medCtx.strength.value}
-            onChangeText={() => {}}
+            value={medCtx.numOfPills.value}
+            onChangeText={changeNumHandler}
             onEndEditing={() => {}}
           />
         </View>
@@ -39,8 +46,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    // borderColor: "black",
-    // borderWidth: 2,
     width: 150,
     paddingLeft: 60,
   },

@@ -9,6 +9,7 @@ export const MedContext = createContext({
   availableMeds: [],
   med: { id: "", value: "", IsValid: false },
   strength: { value: "", IsValid: false },
+  numOfPills: { value: "", IsValid: false },
   units: { value: "", IsValid: false },
   dates: { value: "" },
   days: { value: "", IsValid: false },
@@ -875,6 +876,7 @@ const initialState = {
   availableConditions: [],
   condition: { id: "", value: "", IsValid: false },
   strength: { value: "", IsValid: false },
+  numOfPills: { value: "", IsValid: false },
   units: { id: "", IsValid: false },
   days: { id: "", IsValid: false },
   frequency: { id: "2", value: "Every Day" },
@@ -919,6 +921,10 @@ const MedContextProvider = ({ children }) => {
 
   const addStrength = (strengthValue) => {
     dispatch({ type: "ADD_STRENGTH", payload: strengthValue });
+  };
+
+  const addNumOfPills = (numPills) => {
+    dispatch({ type: "ADD_NUM_PILLS", payload: numPills });
   };
 
   const addUnit = (id) => {
@@ -967,6 +973,7 @@ const MedContextProvider = ({ children }) => {
         addDaysList: addDaysList,
         addStartDate: addStartDate,
         addEndDate: addEndDate,
+        addNumOfPills: addNumOfPills,
       }}
     >
       {children}

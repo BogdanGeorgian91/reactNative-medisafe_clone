@@ -119,6 +119,15 @@ const medReducer = (state, action) => {
         },
       };
 
+    case "ADD_NUM_PILLS":
+      return {
+        ...state,
+        numOfPills: {
+          value: action.payload,
+          IsValid: !isNaN(action.payload) && action.payload > 0,
+        },
+      };
+
     case "ADD_UNITS":
       return {
         ...state,

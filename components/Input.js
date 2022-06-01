@@ -6,6 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Input = ({
   placeholder,
+  placeholderTextColor,
   title,
   iconName,
   iconName2,
@@ -38,7 +39,7 @@ const Input = ({
         <View style={styles.inputContainer}>
           <TextInput
             placeholder={placeholder}
-            placeholderTextColor="blue"
+            placeholderTextColor={placeholderTextColor}
             style={styles.input}
             value={value}
             keyboardType={keyboardType}

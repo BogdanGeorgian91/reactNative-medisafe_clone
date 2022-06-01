@@ -8,9 +8,7 @@ import { MedContext } from "../state-management/context";
 import { Picker } from "@react-native-picker/picker";
 
 const ModalPickerCondition = ({
-  children,
   value,
-  title,
   iconName,
   iconSize,
   iconColor,
@@ -52,7 +50,7 @@ const ModalPickerCondition = ({
   }
 
   let mainContent = (
-    <View>
+    <View style={styles.searchContainer}>
       <Pressable
         style={styles.cancelTextContainer}
         onPress={() => setModalVisible(!modalVisible)}
@@ -64,7 +62,6 @@ const ModalPickerCondition = ({
         <View style={styles.inputContainer}>
           <Input
             placeholder="Search condition"
-            // title="med info"
             iconName="zoom"
             iconSize={24}
             iconColor="black"
@@ -276,22 +273,24 @@ const styles = StyleSheet.create({
     // marginBottom: 15,
     // textAlign: "center",
   },
+  searchContainer: {
+    alignItems: "center",
+  },
   rootPickerContainer: {
     // width: "100%",
     marginTop: 20,
-    paddingLeft: 10,
+    // paddingLeft: 10,
     flexDirection: "row",
     alignItems: "center",
     // borderWidth: 2,
     // borderColor: "black",
   },
   inputContainer: {
-    width: "100%",
+    width: "96%",
     backgroundColor: "red",
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "black",
-    marginRight: 15,
   },
   cancelTextContainer: {
     marginTop: 10,

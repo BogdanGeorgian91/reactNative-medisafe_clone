@@ -51,11 +51,11 @@ const ScheduleScreen = ({ navigation }) => {
           Next
         </HeaderButton>
       ),
-      // headerLeft: () => (
-      //   <HeaderButton onPress={() => navigation.goBack()} active={true}>
-      //     Cancel
-      //   </HeaderButton>
-      // ),
+      headerLeft: () => (
+        <HeaderButton onPress={() => navigation.navigate("AddMedicine")}>
+          Cancel
+        </HeaderButton>
+      ),
     });
   }, [navigation]);
 
@@ -127,7 +127,9 @@ const ScheduleScreen = ({ navigation }) => {
             /* console.log(hoursArray); */
           }
           uniqueHoursArray = [...new Set(hoursArray)];
-          {/* console.log(uniqueHoursArray); */}
+          {
+            /* console.log(uniqueHoursArray); */
+          }
 
           {
             /* console.log(uniqueHours); */
@@ -170,7 +172,9 @@ const ScheduleScreen = ({ navigation }) => {
           {
             /* console.log(hoursArray); */
           }
-          {/* console.log(uniqueHoursArray); */}
+          {
+            /* console.log(uniqueHoursArray); */
+          }
 
           return (
             <View style={styles.timeContainer} key={i}>
@@ -264,13 +268,15 @@ const ScheduleScreen = ({ navigation }) => {
         <View style={styles.rootTimeContainer}>
           <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
           <View style={styles.timeContainer}>
-            {[...Array(numberTimesPerDay)].map((e, i) => {
+            {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
               return (
                 <View style={styles.timeContainer} key={i}>
                   <ModalTimePicker
                     iconName="arrowright"
                     iconSize={24}
                     iconColor="black"
+                    // ranOnce={}
+                    value={e}
                   ></ModalTimePicker>
                 </View>
               );
@@ -348,13 +354,15 @@ const ScheduleScreen = ({ navigation }) => {
         <View style={styles.rootTimeContainer}>
           <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
 
-          {[...Array(numberTimesPerDay)].map((e, i) => {
+          {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
             return (
               <View style={styles.timeContainer} key={i}>
                 <ModalTimePicker
                   iconName="arrowright"
                   iconSize={24}
                   iconColor="black"
+                  // ranOnce={}
+                  value={e}
                 ></ModalTimePicker>
               </View>
             );
