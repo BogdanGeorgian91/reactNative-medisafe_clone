@@ -1,28 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  Modal,
-  Alert,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Pressable, Modal, Alert, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MedContext } from "../state-management/context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { hoursArray } from "../screens/ScheduleScreen";
-
-let hoursSelected = [];
-export let uniqueHours = [];
-export let uniqueHoursSelected = [];
-export let newTimesArr = [];
-let poppedItem;
 
 const ModalTimePicker = ({
   children,
   value,
-  hasRanOnce,
   title,
   iconName,
   iconSize,
@@ -32,9 +16,10 @@ const ModalTimePicker = ({
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [timeSelected, setTimeSelected] = useState(value);
+
   const [doseCount, setDoseCount] = useState(1);
-  const [ranOnce, setRanOnce] = useState(false);
+  const [timeSelected, setTimeSelected] = useState("08:00");
+  // const [ranOnce, setRanOnce] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -53,14 +38,19 @@ const ModalTimePicker = ({
     setTimeSelected(
       padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes())
     );
-    value = timeSelected;
+    // value = timeSelected;
     hideDatePicker();
   };
 
-  const pressHandler = () => {
-    setRanOnce(true);
+  // const chooseHourHandler = (id) => {
+  //   medCtx.chooseHour(id);
+  // };
+
+  const pressHandler = (id) => {
+    id = medCtx.timesAday.id;
+    // setRanOnce(true);
     setModalVisible(true);
-    value = timeSelected;
+    medCtx.chooseHour(id);
   };
 
   const deleteAlarmHandler = () => {
@@ -69,7 +59,7 @@ const ModalTimePicker = ({
     setModalVisible(false);
   };
 
-
+  // console.log(medCtx.timesAday.id);
 
   return (
     <View>
@@ -102,7 +92,6 @@ const ModalTimePicker = ({
             </View>
 
             <Pressable
-              // style={[styles.button, styles.buttonClose]}
               // onPress={() => setModalVisible(!modalVisible)}
               onPress={showDatePicker}
               style={styles.pickerContainer}
@@ -140,19 +129,9 @@ const ModalTimePicker = ({
         </View>
       </Modal>
 
-      <Pressable
-        onPress={pressHandler}
-        style={styles.container}
-      >
+      <Pressable onPress={pressHandler} style={styles.container}>
         <View style={styles.textContainer}>
-          {!ranOnce ? (
-            <Text style={styles.textStyleTime}>{value}</Text>
-          ) : (
-            <Text style={styles.textStyleTime}>{value = timeSelected}</Text>
-          )}
-
-          {/* <Text style={styles.textStyleTime}>{timeSelected}</Text>
-          {/* <Text style={styles.textStyleTime}>{value}</Text> */}
+          <Text style={styles.textStyleTime}>{value}</Text>
           <Text style={styles.textPill}>Take {doseCount} pills</Text>
         </View>
 

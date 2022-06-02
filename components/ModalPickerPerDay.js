@@ -17,7 +17,7 @@ const ModalPickerPerDay = ({
   const [modalVisible, setModalVisible] = useState(false);
 
   const selectHowOftenHandler = (id) => {
-    console.log("selectHowOftenHANDLER");
+    // console.log("selectHowOftenHANDLER");
     medCtx.addHowOftenPerDay(id);
   };
 

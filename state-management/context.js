@@ -878,13 +878,13 @@ const initialState = {
   strength: { value: "", IsValid: false },
   numOfPills: { value: "", IsValid: false },
   units: { id: "", IsValid: false },
-  day: { id: "", name: "", selected: false },
-  alldayz: [],
+  // day: { id: "", name: "", selected: false },
   frequency: { id: "2", value: "Every Day" },
   howOften: { id: 1, value: 2 },
   timesAday: { id: 1, value: "Once a Day" },
   everyDays: { id: 1, value: 2 },
   dates: { id: "", value: "" },
+  hours: [],
 };
 
 const MedContextProvider = ({ children }) => {
@@ -956,6 +956,10 @@ const MedContextProvider = ({ children }) => {
     dispatch({ type: "RETURN_END_DATE", payload: id });
   };
 
+  const chooseHour = (id) => {
+    dispatch({ type: "CHOOSE_HOUR", payload: { id: id } });
+  };
+
   return (
     <MedContext.Provider
       value={{
@@ -975,6 +979,7 @@ const MedContextProvider = ({ children }) => {
         addStartDate: addStartDate,
         addEndDate: addEndDate,
         addNumOfPills: addNumOfPills,
+        chooseHour: chooseHour,
       }}
     >
       {children}

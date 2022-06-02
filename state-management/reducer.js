@@ -214,6 +214,18 @@ const medReducer = (state, action) => {
         },
       };
 
+    case "CHOOSE_HOUR":
+      console.log(action.payload);
+      let nr = action.payload.id - 1
+      const hoursArray = [...state.allHours[nr].values];
+      console.log(hoursArray);
+
+
+      return {
+        ...state,
+        allHours[nr].values: hoursArray,
+      };
+
     default:
       return state;
   }

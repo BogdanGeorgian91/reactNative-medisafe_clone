@@ -1,26 +1,12 @@
 import React, { useContext, useLayoutEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Keyboard,
-  TouchableWithoutFeedback,
-  FlatList,
-  ScrollView,
-} from "react-native";
-import Input from "../components/Input";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import HeaderButton from "../components/HeaderButton";
 import ModalPickerPerDay from "../components/ModalPickerPerDay";
 import ModalPickerFrequency from "../components/ModalPickerFrequency";
-import ModalTimePicker, { uniqueHours } from "../components/ModalTimePicker";
-import {
-  uniqueHoursSelected,
-  newTimesArr,
-} from "../components/ModalTimePicker";
+import ModalTimePicker from "../components/ModalTimePicker";
 import ModalStartDatePicker from "../components/ModalStartDatePicker";
 import ModalEndDatePicker from "../components/ModalEndDatePicker";
 import ModalHowOften from "../components/ModalHowOften";
-
 import FullHeightScrollView from "../components/FullHeightScrollView";
 
 import { startDateValue } from "../components/ModalStartDatePicker";
@@ -31,13 +17,8 @@ import { endDateValue } from "../components/ModalEndDatePicker";
 import DaysList from "../components/DaysList";
 import { MedContext } from "../state-management/context";
 
-export let hoursArray = [];
-export let uniqueHoursArray = [];
-
 const ScheduleScreen = ({ navigation }) => {
   const medCtx = useContext(MedContext);
-  // console.log(MedContext);
-  // console.log(MedContext.dates[1]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -59,20 +40,14 @@ const ScheduleScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
-  // console.log(uniqueHoursSelected);
-  // console.log(newTimesArr);
   let numberTimesPerDay;
-
   if (medCtx.timesAday.id == 24) {
     numberTimesPerDay = 24 - 11;
   } else {
     numberTimesPerDay = medCtx.timesAday.id;
   }
 
-  // let array = [];
-  // array.push(numberTimesPerDay);
-  // array.length = numberTimesPerDay;
-  // console.log(numberTimesPerDay);
+  // console.log(medCtx.allHours);
 
   let content = (
     <View value={{ startDateValue, endDateValue }} style={styles.rootContainer}>
@@ -102,20 +77,31 @@ const ScheduleScreen = ({ navigation }) => {
       <View style={styles.rootTimeContainer}>
         <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
 
-        {/* {[...Array(numberTimesPerDay)].map((e, i) => {
-          return (
-            <View style={styles.timeContainer} key={i}>
+        <FlatList
+          data={medCtx.allHours[numberTimesPerDay - 1].values}
+          keyExtractor={(item) => item.id}
+          renderItem={(itemData) => {
+            console.log(itemData);
+            return (
               <ModalTimePicker
                 iconName="arrowright"
                 iconSize={24}
                 iconColor="black"
-                value={medCtx.allHours[numberTimesPerDay - 1].values}
-              ></ModalTimePicker>
-            </View>
-          );
-        })} */}
+                value={itemData.item}
+              >
+                08000
+              </ModalTimePicker>
 
-        {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
+              // <UnitItem
+              //   onPress={chooseUnitHandler.bind(this, itemData.item.id)}
+              //   unit={itemData.item.name}
+              //   isSelected={itemData.item.id === medCtx.units.value}
+              // />
+            );
+          }}
+        />
+
+        {/* {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
           return (
             <View style={styles.timeContainer} key={i}>
               <ModalTimePicker
@@ -126,7 +112,7 @@ const ScheduleScreen = ({ navigation }) => {
               ></ModalTimePicker>
             </View>
           );
-        })}
+        })} */}
       </View>
 
       <View style={styles.startEndContainer}>
@@ -214,7 +200,6 @@ const ScheduleScreen = ({ navigation }) => {
                     iconName="arrowright"
                     iconSize={24}
                     iconColor="black"
-                    // ranOnce={}
                     value={e}
                   ></ModalTimePicker>
                 </View>
