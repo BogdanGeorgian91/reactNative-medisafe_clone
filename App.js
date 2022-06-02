@@ -23,7 +23,7 @@ export default function App() {
     <MedContextProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={{ title: "HOME", headerTitleAlign: "center" }}
@@ -42,7 +42,7 @@ export default function App() {
             name="Unit"
             component={UnitScreen}
             options={{ title: "UNITS", headerTitleAlign: "center" }}
-          />
+          /> */}
           <Stack.Screen
             name="Schedule"
             component={ScheduleScreen}

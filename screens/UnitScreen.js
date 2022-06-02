@@ -15,13 +15,16 @@ const UnitScreen = () => {
       <FlatList
         data={medCtx.allUnits}
         keyExtractor={(item) => item.id}
-        renderItem={(itemData) => (
-          <UnitItem
-            onPress={chooseUnitHandler.bind(this, itemData.item.id)}
-            unit={itemData.item.name}
-            isSelected={itemData.item.id === medCtx.units.value}
-          />
-        )}
+        renderItem={(itemData) => {
+          console.log(itemData);
+          return (
+            <UnitItem
+              onPress={chooseUnitHandler.bind(this, itemData.item.id)}
+              unit={itemData.item.name}
+              isSelected={itemData.item.id === medCtx.units.value}
+            />
+          );
+        }}
       />
     </View>
   );

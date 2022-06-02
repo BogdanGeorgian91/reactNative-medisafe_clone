@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MedContext } from "../state-management/context";
 
-const DayItem = ({ day, onPress, onPressOut, isSelected }) => {
+const DayItem = ({ day, onPress, isSelected }) => {
   if (isSelected) {
     return (
       <Pressable onPress={onPress} style={styles.textContainer}>
@@ -16,14 +16,9 @@ const DayItem = ({ day, onPress, onPressOut, isSelected }) => {
   }
 
   return (
-    <Pressable
-      style={styles.textContainer}
-      onPress={onPress}
-      onPressOut={onPressOut}
-    >
+    <Pressable style={styles.textContainer} onPress={onPress}>
       <View style={styles.iconContainer}>
         <Text style={styles.text}>{day}</Text>
-
         {/* <MaterialCommunityIcons name="check" size={24} color="black" /> */}
       </View>
     </Pressable>
@@ -32,45 +27,10 @@ const DayItem = ({ day, onPress, onPressOut, isSelected }) => {
 
 const DaysList = () => {
   const medCtx = useContext(MedContext);
-  // const [selectedDays, setSelectedDays] = useState(medCtx.allDays);
 
   const chooseDayHandler = (id) => {
     medCtx.addDaysList(id);
-  };
-
-  // const handlePressOut = (day) => {
-  //   console.log("ENTERED HANDLEPRESSOUT")
-  //   const newItem = selectedDays.map((val) => {
-  //     if (val.id == day.id) {
-  //       return {
-  //         ...val,
-  //         selected: true,
-  //       };
-  //     } else {
-  //       return {
-  //         ...val,
-  //         selected: false,
-  //       };
-  //     }
-  //   });
-  //   setSelectedDays(newItem);
-  // };
-
-  // console.log(selectedDays);
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <DayItem
-        onPress={chooseDayHandler.bind(this, itemData.item.id)}
-        // onPressOut={() => {
-        //   console.log(itemData);
-        //   handlePressOut(itemData.item);
-        // }}
-        day={itemData.item.name}
-        isSelected={itemData.item.id === medCtx.days.value}
-        // isSelected={itemData.item.selected == medCtx.days.value}
-      />
-    );
+    // console.log(id);
   };
 
   return (
@@ -78,17 +38,16 @@ const DaysList = () => {
       <FlatList
         data={medCtx.allDays}
         keyExtractor={(item) => item.id}
-        renderItem={(itemData) => (
-          <DayItem
-            onPress={chooseDayHandler.bind(this, itemData.item.id)}
-            // onPressOut={() => {
-            //   console.log(itemData);
-            //   handlePressOut(itemData.item);
-            // }}
-            day={itemData.item.name}
-            isSelected={itemData.item.id === medCtx.days.value}
-          />
-        )}
+        renderItem={(itemData) => {
+          // console.log(itemData);
+          return (
+            <DayItem
+              onPress={chooseDayHandler.bind(this, itemData.item.id)}
+              day={itemData.item.name}
+              isSelected={itemData.item.selected}
+            />
+          );
+        }}
       />
     </View>
   );

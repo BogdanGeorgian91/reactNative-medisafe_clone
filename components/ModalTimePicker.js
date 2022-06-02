@@ -36,16 +36,6 @@ const ModalTimePicker = ({
   const [doseCount, setDoseCount] = useState(1);
   const [ranOnce, setRanOnce] = useState(false);
 
-  // console.log(ranOnce);
-
-  // useEffect(() => {
-  //   ranOnce = false;
-
-  //   // return function cleanup() {
-  //   //   ranOnce = false;
-  //   // };
-  // });
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -71,11 +61,6 @@ const ModalTimePicker = ({
     setRanOnce(true);
     setModalVisible(true);
     value = timeSelected;
-    // console.log(hoursSelected);
-    uniqueHours = [...new Set(hoursSelected)];
-    // console.log(uniqueHours);
-    // console.log(uniqueHours[uniqueHours.length - 1]);
-    // poppedItem = hoursSelected.pop();
   };
 
   const deleteAlarmHandler = () => {
@@ -83,21 +68,8 @@ const ModalTimePicker = ({
     setDoseCount(1);
     setModalVisible(false);
   };
-  // console.log(value);
-  // console.log(timeSelected);
-  newTimesArr.push(timeSelected);
-  // console.log(hoursSelected);
-  hoursSelected.push(timeSelected);
-  // hoursSelected.push(value);
-  // console.log(hoursSelected);
 
-  uniqueHoursSelected = [...new Set(hoursSelected)];
-  // uniqueHoursSelected.pop();
-  // console.log(hoursArray);
-  // console.log(poppedItem);
-  // console.log(uniqueHoursSelected);
 
-  // console.log(ranOnce);
 
   return (
     <View>
@@ -171,7 +143,6 @@ const ModalTimePicker = ({
       <Pressable
         onPress={pressHandler}
         style={styles.container}
-        // hasRanOnce={ranOnce}
       >
         <View style={styles.textContainer}>
           {!ranOnce ? (
@@ -182,7 +153,6 @@ const ModalTimePicker = ({
 
           {/* <Text style={styles.textStyleTime}>{timeSelected}</Text>
           {/* <Text style={styles.textStyleTime}>{value}</Text> */}
-
           <Text style={styles.textPill}>Take {doseCount} pills</Text>
         </View>
 

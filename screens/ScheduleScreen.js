@@ -102,8 +102,6 @@ const ScheduleScreen = ({ navigation }) => {
       <View style={styles.rootTimeContainer}>
         <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
 
-        {/* {console.log(typeof medCtx.allHours[0].values)} */}
-
         {/* {[...Array(numberTimesPerDay)].map((e, i) => {
           return (
             <View style={styles.timeContainer} key={i}>
@@ -118,71 +116,12 @@ const ScheduleScreen = ({ navigation }) => {
         })} */}
 
         {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
-          {
-            /* console.log(e); */
-          }
-
-          hoursArray.push(e);
-          {
-            /* console.log(hoursArray); */
-          }
-          uniqueHoursArray = [...new Set(hoursArray)];
-          {
-            /* console.log(uniqueHoursArray); */
-          }
-
-          {
-            /* console.log(uniqueHours); */
-          }
-          {
-            /* console.log(newTimesArr); */
-          }
-
-          {
-            /* if (
-            hoursArray[hoursArray.length - 1] ==
-            uniqueHours[uniqueHours.length - 1]
-          ) {
-            e = newTimesArr[i];
-            hoursArray.push(e);
-          } */
-          }
-
-          {
-            /* for (let i = 0; i < hoursArray.length; i++) {
-            e = newTimesArr[i];
-            console.log(e);
-            hoursArray[i] = newTimesArr[i];
-
-            for (let j = 1; j < hoursArray.length; j++) {
-              let regex = new RegExp(":", "g");
-              let timeStr1 = `${hoursArray[i]}:00`;
-              let timeStr2 = `${hoursArray[j]}:00`;
-
-              if (
-                parseInt(timeStr1.replace(regex, ""), 10) <
-                parseInt(timeStr2.replace(regex, ""), 10)
-              ) {
-                hoursArray.unshift(hoursArray[i]);
-              }
-            }
-          } */
-          }
-
-          {
-            /* console.log(hoursArray); */
-          }
-          {
-            /* console.log(uniqueHoursArray); */
-          }
-
           return (
             <View style={styles.timeContainer} key={i}>
               <ModalTimePicker
                 iconName="arrowright"
                 iconSize={24}
                 iconColor="black"
-                // ranOnce={}
                 value={e}
               ></ModalTimePicker>
             </View>

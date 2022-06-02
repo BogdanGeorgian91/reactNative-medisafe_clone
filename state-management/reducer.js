@@ -21,6 +21,21 @@ const medReducer = (state, action) => {
         med: newMed,
       };
 
+    case "ADD_DAYS":
+      // console.log(action.payload);
+      const updatedAllDays = [...state.allDays];
+      let selectedDay = updatedAllDays.findIndex(
+        (day) => day.id === action.payload.id
+      );
+
+      updatedAllDays[selectedDay].selected =
+        !updatedAllDays[selectedDay].selected;
+
+      return {
+        ...state,
+        allDays: updatedAllDays,
+      };
+
     case "CHECK_MED":
       const medCopy = { ...state.med };
       const medValue = medCopy.value;
@@ -129,20 +144,10 @@ const medReducer = (state, action) => {
       };
 
     case "ADD_UNITS":
-      return {
-        ...state,
-        units: {
-          value: action.payload,
-          IsValid: true,
-        },
-      };
-
-    case "ADD_DAYS":
-      // console.log(action)
       // console.log(action.payload);
       return {
         ...state,
-        days: {
+        units: {
           value: action.payload,
           IsValid: true,
         },
@@ -152,9 +157,8 @@ const medReducer = (state, action) => {
       const newValueArray = state.allFrequencies.filter(
         (item) => item.id == action.payload.id
       );
-      console.log(newValueArray);
+      // console.log(newValueArray);
       const newValue = newValueArray[0].value;
-
       // console.log(newValue);
       return {
         ...state,

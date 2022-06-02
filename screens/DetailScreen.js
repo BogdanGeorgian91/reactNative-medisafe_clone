@@ -182,7 +182,11 @@ const DetailScreen = ({ navigation }) => {
         <View>
           <ReminderButton
             navigateTo="Set Reminder"
-            value={`${medCtx.numOfPills.value} pills left`}
+            value={`${
+              medCtx.numOfPills.value
+                ? medCtx.numOfPills.value
+                : "?"
+            } pills left`}
           >
             Reminder
           </ReminderButton>

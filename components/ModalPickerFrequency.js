@@ -18,7 +18,7 @@ const ModalPickerFrequency = ({
   const [modalVisible, setModalVisible] = useState(false);
 
   const selectFrequencyHandler = (id) => {
-    console.log("selectFrequencyHANDLER");
+    // console.log("selectFrequencyHANDLER");
     medCtx.addFrequency(id);
   };
 
@@ -68,7 +68,7 @@ const ModalPickerFrequency = ({
               <Picker
                 selectedValue={medCtx.frequency.id}
                 onValueChange={(itemValue) => {
-                  console.log(itemValue);
+                  // console.log(itemValue);
                   selectFrequencyHandler(itemValue);
                 }}
                 mode="dropdown"
