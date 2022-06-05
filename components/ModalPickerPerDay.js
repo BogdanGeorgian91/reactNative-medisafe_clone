@@ -18,7 +18,9 @@ const ModalPickerPerDay = ({
 
   const selectHowOftenHandler = (id) => {
     // console.log("selectHowOftenHANDLER");
+    // console.log(id);
     medCtx.addHowOftenPerDay(id);
+    medCtx.chooseHour(id);
   };
 
   const pressHandler = () => {

@@ -754,123 +754,9 @@ const initialState = {
     { id: 12, value: "12 times a Day" },
     { id: 24, value: "24 times a Day" },
   ],
-  allHours: [
-    { id: 1, values: ["08:00"] },
-    { id: 2, values: ["08:00", "23:00"] },
-    { id: 3, values: ["08:00", "15:30", "23:00"] },
-    { id: 4, values: ["08:00", "13:00", "18:00", "23:00"] },
-    { id: 5, values: ["08:00", "11:45", "15:30", "19:15", "23:00"] },
-    { id: 6, values: ["08:00", "12:00", "16:00", "20:00", "00:00", "4:00"] },
-    {
-      id: 7,
-      values: ["08:00", "11:25", "14:50", "18:15", "21:40", "1:05", "4:30"],
-    },
-    {
-      id: 8,
-      values: [
-        "08:00",
-        "11:00",
-        "14:00",
-        "17:00",
-        "20:00",
-        "23:00",
-        "2:00",
-        "5:00",
-      ],
-    },
-    {
-      id: 9,
-      values: [
-        "08:00",
-        "10:40",
-        "13:20",
-        "16:00",
-        "18:40",
-        "21:20",
-        "00:00",
-        "2:40",
-        "5:20",
-      ],
-    },
-    {
-      id: 10,
-      values: [
-        "08:00",
-        "10:25",
-        "12:50",
-        "15:10",
-        "17:35",
-        "20:00",
-        "22:25",
-        "00:50",
-        "3:10",
-        "5:35",
-      ],
-    },
-    {
-      id: 11,
-      values: [
-        "08:00",
-        "10:10",
-        "12:20",
-        "14:30",
-        "16:40",
-        "18:50",
-        "21:00",
-        "23:10",
-        "1:20",
-        "3:30",
-        "5:40",
-      ],
-    },
-    {
-      id: 12,
-      values: [
-        "08:00",
-        "10:00",
-        "12:00",
-        "14:00",
-        "16:00",
-        "18:00",
-        "20:00",
-        "22:00",
-        "00:00",
-        "2:00",
-        "4:00",
-        "6:00",
-      ],
-    },
-    {
-      id: 24,
-      values: [
-        "08:00",
-        "9:00",
-        "10:00",
-        "11:00",
-        "12:00",
-        "13:00",
-        "14:00",
-        "15:00",
-        "16:00",
-        "17:00",
-        "18:00",
-        "19:00",
-        "20:00",
-        "21:00",
-        "22:00",
-        "23:00",
-        "00:00",
-        "1:00",
-        "2:00",
-        "3:00",
-        "4:00",
-        "5:00",
-        "6:00",
-        "7:00",
-      ],
-    },
-  ],
+  allHours: ["08:00"],
 
+  hour: "",
   availableMeds: [],
   med: { id: "", value: "", IsValid: false },
   availableConditions: [],
@@ -878,13 +764,11 @@ const initialState = {
   strength: { value: "", IsValid: false },
   numOfPills: { value: "", IsValid: false },
   units: { id: "", IsValid: false },
-  // day: { id: "", name: "", selected: false },
   frequency: { id: "2", value: "Every Day" },
   howOften: { id: 1, value: 2 },
   timesAday: { id: 1, value: "Once a Day" },
   everyDays: { id: 1, value: 2 },
   dates: { id: "", value: "" },
-  hours: [],
 };
 
 const MedContextProvider = ({ children }) => {
@@ -960,6 +844,13 @@ const MedContextProvider = ({ children }) => {
     dispatch({ type: "CHOOSE_HOUR", payload: { id: id } });
   };
 
+  const addHour = (hourRemoved, hourSelected) => {
+    dispatch({
+      type: "ADD_HOUR",
+      payload: { values: [hourRemoved, hourSelected] },
+    });
+  };
+
   return (
     <MedContext.Provider
       value={{
@@ -980,6 +871,7 @@ const MedContextProvider = ({ children }) => {
         addEndDate: addEndDate,
         addNumOfPills: addNumOfPills,
         chooseHour: chooseHour,
+        addHour: addHour,
       }}
     >
       {children}

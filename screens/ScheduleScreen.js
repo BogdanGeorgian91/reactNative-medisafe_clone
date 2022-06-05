@@ -47,7 +47,8 @@ const ScheduleScreen = ({ navigation }) => {
     numberTimesPerDay = medCtx.timesAday.id;
   }
 
-  // console.log(medCtx.allHours);
+  console.log(medCtx.allHours);
+  // console.log(medCtx.allHours[0].value);
 
   let content = (
     <View value={{ startDateValue, endDateValue }} style={styles.rootContainer}>
@@ -78,41 +79,24 @@ const ScheduleScreen = ({ navigation }) => {
         <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
 
         <FlatList
-          data={medCtx.allHours[numberTimesPerDay - 1].values}
-          keyExtractor={(item) => item.id}
+          data={medCtx.allHours}
+          keyExtractor={(item) =>
+            new Date().toString() + Math.random().toString()
+          }
           renderItem={(itemData) => {
-            console.log(itemData);
+            // console.log(itemData);
+            console.log(itemData.item);
+
             return (
               <ModalTimePicker
                 iconName="arrowright"
                 iconSize={24}
                 iconColor="black"
                 value={itemData.item}
-              >
-                08000
-              </ModalTimePicker>
-
-              // <UnitItem
-              //   onPress={chooseUnitHandler.bind(this, itemData.item.id)}
-              //   unit={itemData.item.name}
-              //   isSelected={itemData.item.id === medCtx.units.value}
-              // />
+              ></ModalTimePicker>
             );
           }}
         />
-
-        {/* {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
-          return (
-            <View style={styles.timeContainer} key={i}>
-              <ModalTimePicker
-                iconName="arrowright"
-                iconSize={24}
-                iconColor="black"
-                value={e}
-              ></ModalTimePicker>
-            </View>
-          );
-        })} */}
       </View>
 
       <View style={styles.startEndContainer}>
@@ -192,20 +176,25 @@ const ScheduleScreen = ({ navigation }) => {
 
         <View style={styles.rootTimeContainer}>
           <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
-          <View style={styles.timeContainer}>
-            {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
+          <FlatList
+            data={medCtx.allHours}
+            keyExtractor={(item) =>
+              new Date().toString() + Math.random().toString()
+            }
+            renderItem={(itemData) => {
+              // console.log(itemData);
+              console.log(itemData.item);
+
               return (
-                <View style={styles.timeContainer} key={i}>
-                  <ModalTimePicker
-                    iconName="arrowright"
-                    iconSize={24}
-                    iconColor="black"
-                    value={e}
-                  ></ModalTimePicker>
-                </View>
+                <ModalTimePicker
+                  iconName="arrowright"
+                  iconSize={24}
+                  iconColor="black"
+                  value={itemData.item}
+                ></ModalTimePicker>
               );
-            })}
-          </View>
+            }}
+          />
         </View>
 
         <View style={styles.daysList}>

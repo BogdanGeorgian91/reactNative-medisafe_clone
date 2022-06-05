@@ -16,10 +16,9 @@ const ModalTimePicker = ({
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
   const [doseCount, setDoseCount] = useState(1);
-  const [timeSelected, setTimeSelected] = useState("08:00");
-  // const [ranOnce, setRanOnce] = useState(false);
+
+  const [timeSelected, setTimeSelected] = useState(value);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -35,22 +34,26 @@ const ModalTimePicker = ({
 
   const handleConfirm = (date) => {
     // console.warn("A date has been picked: ", date);
-    setTimeSelected(
-      padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes())
-    );
-    // value = timeSelected;
+    // setTimeSelected(
+    //   padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes())
+    // );
+    console.log(timeSelected);
+    let hourSelected =
+      padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes());
+
+    medCtx.addHour(timeSelected, hourSelected);
+
     hideDatePicker();
+    console.log(medCtx.allHours);
   };
 
   // const chooseHourHandler = (id) => {
   //   medCtx.chooseHour(id);
   // };
 
-  const pressHandler = (id) => {
-    id = medCtx.timesAday.id;
-    // setRanOnce(true);
+  const pressHandler = () => {
     setModalVisible(true);
-    medCtx.chooseHour(id);
+    // medCtx.chooseHour(id);
   };
 
   const deleteAlarmHandler = () => {
@@ -58,8 +61,6 @@ const ModalTimePicker = ({
     setDoseCount(1);
     setModalVisible(false);
   };
-
-  // console.log(medCtx.timesAday.id);
 
   return (
     <View>
@@ -131,7 +132,7 @@ const ModalTimePicker = ({
 
       <Pressable onPress={pressHandler} style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.textStyleTime}>{value}</Text>
+          <Text style={styles.textStyleTime}>{timeSelected}</Text>
           <Text style={styles.textPill}>Take {doseCount} pills</Text>
         </View>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 const medReducer = (state, action) => {
   switch (action.type) {
@@ -214,16 +215,132 @@ const medReducer = (state, action) => {
         },
       };
 
-    case "CHOOSE_HOUR":
+    case "ADD_HOUR":
       console.log(action.payload);
-      let nr = action.payload.id - 1
-      const hoursArray = [...state.allHours[nr].values];
-      console.log(hoursArray);
+      console.log(action.payload.values);
 
+      let hourToRemove = action.payload.values[0];
+      let hourToAdd = action.payload.values[1];
+
+      let newHoursArray = state.allHours.filter(
+        (value) => value != hourToRemove
+      );
+
+      if (!newHoursArray.includes(hourToAdd)) {
+        newHoursArray.push(hourToAdd);
+      } else {
+        newHoursArray.splice(newHoursArray.indexOf(hourToAdd), 1);
+        newHoursArray.push(hourToAdd);
+      }
+
+      let workingArray = [];
+      for (let i = 0; i < newHoursArray.length; i++) {
+        let hourUserSelected = {
+          id: i,
+          date: `Jan 1 2022 ${newHoursArray[i]}:00`,
+        };
+        workingArray.push(hourUserSelected);
+      }
+
+      workingArray.sort(function (a, b) {
+        var c = new Date(a.date);
+        var d = new Date(b.date);
+        return c - d;
+      });
+
+      let finalNewHoursArray = workingArray.map(
+        (el) => (el = el.date.slice(11, 16))
+      );
 
       return {
         ...state,
-        allHours[nr].values: hoursArray,
+        allHours: finalNewHoursArray,
+        timesAday: {
+          id: finalNewHoursArray.length,
+          value:
+            state.allHowOftenPerDayValues[finalNewHoursArray.length - 1].value,
+        },
+      };
+
+    case "CHOOSE_HOUR":
+      console.log(action.payload);
+      // console.log(action.payload.id);
+
+      let numPerDay = action.payload.id;
+      // console.log(numPerDay);
+
+      let startHour = moment("08:00", "HHmm").format("HH:mm");
+      // console.log(startHour);
+
+      let hours = [startHour];
+      // console.log(hours);
+
+      const renderHours = (numPerDay) => {
+        let newHour;
+        let minutesCount;
+
+        switch (numPerDay) {
+          case (numPerDay = 2):
+            minutesCount = 900;
+            break;
+          case (numPerDay = 3):
+            minutesCount = 450;
+            break;
+          case (numPerDay = 4):
+            minutesCount = 300;
+            break;
+          case (numPerDay = 5):
+            minutesCount = 225;
+            break;
+          case (numPerDay = 6):
+            minutesCount = 240;
+            break;
+          case (numPerDay = 7):
+            minutesCount = 205;
+            break;
+          case (numPerDay = 8):
+            minutesCount = 180;
+            break;
+          case (numPerDay = 9):
+            minutesCount = 160;
+            break;
+          case (numPerDay = 10):
+            minutesCount = 145;
+            break;
+          case (numPerDay = 11):
+            minutesCount = 130;
+            break;
+          case (numPerDay = 12):
+            minutesCount = 120;
+            break;
+          case (numPerDay = 24):
+            minutesCount = 60;
+            break;
+        }
+
+        new Array(numPerDay - 1).fill().map((acc, index) => {
+          newHour = moment(hours[index], "HHmm")
+            .add(minutesCount, "minutes")
+            .format("HH:mm");
+          hours.push(newHour);
+        });
+
+        return hours;
+      };
+
+      hoursArray = renderHours(numPerDay);
+
+      if (numPerDay == 1) {
+        hoursArray = ["08:00"];
+      }
+
+      // console.log(hours);
+      console.log(state.hour);
+      console.log(hoursArray);
+
+      return {
+        ...state,
+        allHours: hoursArray,
       };
 
     default:
