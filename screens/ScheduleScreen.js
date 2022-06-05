@@ -267,19 +267,25 @@ const ScheduleScreen = ({ navigation }) => {
         <View style={styles.rootTimeContainer}>
           <Text style={styles.textHeaderTime}>SET TIME AND DOSE</Text>
 
-          {medCtx.allHours[numberTimesPerDay - 1].values.map((e, i) => {
-            return (
-              <View style={styles.timeContainer} key={i}>
+          <FlatList
+            data={medCtx.allHours}
+            keyExtractor={(item) =>
+              new Date().toString() + Math.random().toString()
+            }
+            renderItem={(itemData) => {
+              // console.log(itemData);
+              console.log(itemData.item);
+
+              return (
                 <ModalTimePicker
                   iconName="arrowright"
                   iconSize={24}
                   iconColor="black"
-                  // ranOnce={}
-                  value={e}
+                  value={itemData.item}
                 ></ModalTimePicker>
-              </View>
-            );
-          })}
+              );
+            }}
+          />
         </View>
 
         <View style={styles.startEndContainer}>
