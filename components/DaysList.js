@@ -37,7 +37,9 @@ const DaysList = () => {
     <View style={styles.container}>
       <FlatList
         data={medCtx.allDays}
-        keyExtractor={(item) => item.id}
+        // keyExtractor={(item) => item.id}
+        listKey={(item, index) => `_key${index.toString()}`}
+        keyExtractor={(item, index) => `_key${index.toString()}`}
         renderItem={(itemData) => {
           // console.log(itemData);
           return (

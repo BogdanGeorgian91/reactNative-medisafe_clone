@@ -196,28 +196,26 @@ const medReducer = (state, action) => {
       };
 
     case "RETURN_START_DATE":
-      // console.log(action.payload);
+      console.log(action.payload);
       return {
         ...state,
-        dates: {
-          id: 1,
+        startDate: {
           value: action.payload,
         },
       };
 
     case "RETURN_END_DATE":
-      // console.log(action.payload);
+      console.log(action.payload);
       return {
         ...state,
-        dates: {
-          id: 2,
+        endDate: {
           value: action.payload,
         },
       };
 
     case "ADD_HOUR":
-      console.log(action.payload);
-      console.log(action.payload.values);
+      // console.log(action.payload);
+      // console.log(action.payload.values);
 
       let hourToRemove = action.payload.values[0];
       let hourToAdd = action.payload.values[1];
@@ -263,7 +261,7 @@ const medReducer = (state, action) => {
       };
 
     case "CHOOSE_HOUR":
-      console.log(action.payload);
+      // console.log(action.payload);
       // console.log(action.payload.id);
 
       let numPerDay = action.payload.id;
@@ -335,12 +333,21 @@ const medReducer = (state, action) => {
       }
 
       // console.log(hours);
-      console.log(state.hour);
-      console.log(hoursArray);
+      // console.log(state.hour);
+      // console.log(hoursArray);
 
       return {
         ...state,
         allHours: hoursArray,
+      };
+
+    case "ADD_DOSE":
+      console.log(action.payload);
+      return {
+        ...state,
+        doseCount: {
+          value: state.doseCount.value + action.payload,
+        },
       };
 
     default:

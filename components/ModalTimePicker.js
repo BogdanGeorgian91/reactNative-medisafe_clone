@@ -16,9 +16,10 @@ const ModalTimePicker = ({
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [doseCount, setDoseCount] = useState(1);
 
   const [timeSelected, setTimeSelected] = useState(value);
+
+  // const [doseCount, setDoseCount] = useState(1);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -33,33 +34,27 @@ const ModalTimePicker = ({
   };
 
   const handleConfirm = (date) => {
-    // console.warn("A date has been picked: ", date);
-    // setTimeSelected(
-    //   padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes())
-    // );
-    console.log(timeSelected);
+    // console.log(timeSelected);
     let hourSelected =
       padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes());
 
     medCtx.addHour(timeSelected, hourSelected);
-
     hideDatePicker();
-    console.log(medCtx.allHours);
   };
-
-  // const chooseHourHandler = (id) => {
-  //   medCtx.chooseHour(id);
-  // };
 
   const pressHandler = () => {
     setModalVisible(true);
-    // medCtx.chooseHour(id);
   };
 
   const deleteAlarmHandler = () => {
     setTimeSelected("08:00");
-    setDoseCount(1);
+    // setDoseCount(1);
     setModalVisible(false);
+  };
+
+  const doseCountHandler = (num) => {
+    medCtx.addDoseCount(num);
+    setModalVisible(true);
   };
 
   return (
@@ -110,11 +105,17 @@ const ModalTimePicker = ({
             <View>
               <Text style={styles.doseText}>Dose</Text>
               <View style={styles.doseCount}>
-                <Pressable onPress={() => setDoseCount(doseCount - 1)}>
+                <Pressable
+                  // onPress={() => setDoseCount(doseCount - 1)}
+                  onPress={() => doseCountHandler(-1)}
+                >
                   <AntDesign name="minussquareo" size={38} color="black" />
                 </Pressable>
-                <Text style={styles.count}>{doseCount}</Text>
-                <Pressable onPress={() => setDoseCount(doseCount + 1)}>
+                <Text style={styles.count}>{medCtx.doseCount.value}</Text>
+                <Pressable
+                  // onPress={() => setDoseCount(doseCount + 1)}
+                  onPress={() => doseCountHandler(1)}
+                >
                   <AntDesign name="plussquareo" size={38} color="black" />
                 </Pressable>
               </View>
@@ -133,7 +134,9 @@ const ModalTimePicker = ({
       <Pressable onPress={pressHandler} style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.textStyleTime}>{timeSelected}</Text>
-          <Text style={styles.textPill}>Take {doseCount} pills</Text>
+          <Text style={styles.textPill}>
+            Take {medCtx.doseCount.value} pills
+          </Text>
         </View>
 
         <View style={styles.valueContainer}>

@@ -8,13 +8,9 @@ import ModalStartDatePicker from "../components/ModalStartDatePicker";
 import ModalEndDatePicker from "../components/ModalEndDatePicker";
 import ModalHowOften from "../components/ModalHowOften";
 import FullHeightScrollView from "../components/FullHeightScrollView";
-
-import { startDateValue } from "../components/ModalStartDatePicker";
-import { endDateValue } from "../components/ModalEndDatePicker";
-// console.log(startDateValue);
-// console.log(endDateValue);
-
 import DaysList from "../components/DaysList";
+
+import moment from "moment";
 import { MedContext } from "../state-management/context";
 
 const ScheduleScreen = ({ navigation }) => {
@@ -47,11 +43,30 @@ const ScheduleScreen = ({ navigation }) => {
     numberTimesPerDay = medCtx.timesAday.id;
   }
 
-  console.log(medCtx.allHours);
-  // console.log(medCtx.allHours[0].value);
+  // console.log(medCtx.startDate.value);
+  // console.log(medCtx.endDate.value);
+  // console.log(moment(medCtx.startDate.value).format("DD-MM-YYYY"));
+
+  let startDateSelected = moment(medCtx.startDate.value).format("DD-MM-YYYY");
+  let startDateVal;
+  let firstPartStart = startDateSelected.slice(0, 2);
+  let secondPartStart = startDateSelected.slice(3, 5);
+  let thirdPartStart = startDateSelected.slice(6, 10);
+  startDateVal = `${thirdPartStart}-${secondPartStart}-${firstPartStart}`;
+
+  let endDateSelected = moment(medCtx.endDate.value).format("DD-MM-YYYY");
+  let endDateVal;
+  let firstPartEnd = endDateSelected.slice(0, 2);
+  let secondPartEnd = endDateSelected.slice(3, 5);
+  let thirdPartEnd = endDateSelected.slice(6, 10);
+  endDateVal = `${thirdPartEnd}-${secondPartEnd}-${firstPartEnd}`;
+
+  let diffInMs = new Date(endDateVal) - new Date(startDateVal);
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  // console.log(diffInDays);
 
   let content = (
-    <View value={{ startDateValue, endDateValue }} style={styles.rootContainer}>
+    <View style={styles.rootContainer}>
       <View style={styles.container}>
         <ModalPickerFrequency
           iconName="arrowright"
@@ -85,7 +100,7 @@ const ScheduleScreen = ({ navigation }) => {
           }
           renderItem={(itemData) => {
             // console.log(itemData);
-            console.log(itemData.item);
+            // console.log(itemData.item);
 
             return (
               <ModalTimePicker
@@ -109,6 +124,7 @@ const ScheduleScreen = ({ navigation }) => {
           <View style={styles.endDateContainer}>
             <Text style={styles.dateText}>Ends</Text>
             <ModalEndDatePicker />
+            <Text>({diffInDays} days)</Text>
           </View>
         </View>
       </View>
@@ -183,7 +199,7 @@ const ScheduleScreen = ({ navigation }) => {
             }
             renderItem={(itemData) => {
               // console.log(itemData);
-              console.log(itemData.item);
+              // console.log(itemData.item);
 
               return (
                 <ModalTimePicker
@@ -212,6 +228,7 @@ const ScheduleScreen = ({ navigation }) => {
             <View style={styles.endDateContainer}>
               <Text style={styles.dateText}>Ends</Text>
               <ModalEndDatePicker />
+              <Text>({diffInDays} days)</Text>
             </View>
           </View>
         </View>
@@ -298,6 +315,7 @@ const ScheduleScreen = ({ navigation }) => {
             <View style={styles.endDateContainer}>
               <Text style={styles.dateText}>Ends</Text>
               <ModalEndDatePicker />
+              <Text>({diffInDays} days)</Text>
             </View>
           </View>
         </View>
@@ -372,7 +390,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   timeContainer: {
-    // paddingVertical: 0,
     borderBottomWidth: 1,
     borderBottomColor: "black",
   },

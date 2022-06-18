@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from "react";
 import { medReducer } from "./reducer";
+import moment from "moment";
 
 export const MedContext = createContext({
   allMeds: [],
@@ -731,13 +732,41 @@ const initialState = {
     },
   ],
   allDays: [
-    { id: 1, name: "Sunday", selected: true },
-    { id: 2, name: "Monday", selected: true },
-    { id: 3, name: "Tuesday", selected: true },
-    { id: 4, name: "Wednesday", selected: true },
-    { id: 5, name: "Thursday", selected: true },
-    { id: 6, name: "Friday", selected: true },
-    { id: 7, name: "Saturday", selected: true },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Sunday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Monday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Tuesday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Wednesday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Thursday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Friday",
+      selected: true,
+    },
+    {
+      id: new Date().toString() + Math.random().toString(),
+      name: "Saturday",
+      selected: true,
+    },
   ],
   allHowOftenPerDayValues: [
     { id: 1, value: "Once a Day" },
@@ -768,7 +797,9 @@ const initialState = {
   howOften: { id: 1, value: 2 },
   timesAday: { id: 1, value: "Once a Day" },
   everyDays: { id: 1, value: 2 },
-  dates: { id: "", value: "" },
+  startDate: { value: moment().format("DD-MMM-YYYY") },
+  endDate: { value: moment().format("DD-MMM-YYYY") },
+  doseCount: { value: 1 },
 };
 
 const MedContextProvider = ({ children }) => {
@@ -832,14 +863,6 @@ const MedContextProvider = ({ children }) => {
     dispatch({ type: "ADD_DAYS", payload: { id: id } });
   };
 
-  const addStartDate = (id) => {
-    dispatch({ type: "RETURN_START_DATE", payload: id });
-  };
-
-  const addEndDate = (id) => {
-    dispatch({ type: "RETURN_END_DATE", payload: id });
-  };
-
   const chooseHour = (id) => {
     dispatch({ type: "CHOOSE_HOUR", payload: { id: id } });
   };
@@ -849,6 +872,18 @@ const MedContextProvider = ({ children }) => {
       type: "ADD_HOUR",
       payload: { values: [hourRemoved, hourSelected] },
     });
+  };
+
+  const addStartDate = (id) => {
+    dispatch({ type: "RETURN_START_DATE", payload: id });
+  };
+
+  const addEndDate = (id) => {
+    dispatch({ type: "RETURN_END_DATE", payload: id });
+  };
+
+  const addDoseCount = (id) => {
+    dispatch({ type: "ADD_DOSE", payload: id });
   };
 
   return (
@@ -872,6 +907,7 @@ const MedContextProvider = ({ children }) => {
         addNumOfPills: addNumOfPills,
         chooseHour: chooseHour,
         addHour: addHour,
+        addDoseCount: addDoseCount,
       }}
     >
       {children}
