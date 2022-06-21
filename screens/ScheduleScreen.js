@@ -43,10 +43,6 @@ const ScheduleScreen = ({ navigation }) => {
     numberTimesPerDay = medCtx.timesAday.id;
   }
 
-  // console.log(medCtx.startDate.value);
-  // console.log(medCtx.endDate.value);
-  // console.log(moment(medCtx.startDate.value).format("DD-MM-YYYY"));
-
   let startDateSelected = moment(medCtx.startDate.value).format("DD-MM-YYYY");
   let startDateVal;
   let firstPartStart = startDateSelected.slice(0, 2);
@@ -98,16 +94,16 @@ const ScheduleScreen = ({ navigation }) => {
           keyExtractor={(item) =>
             new Date().toString() + Math.random().toString()
           }
-          renderItem={(itemData) => {
-            // console.log(itemData);
-            // console.log(itemData.item);
+          renderItem={(itemData, index) => {
+            console.log(itemData);
 
             return (
               <ModalTimePicker
                 iconName="arrowright"
                 iconSize={24}
                 iconColor="black"
-                value={itemData.item}
+                value={itemData.item.time}
+                valueDose={itemData.item.dosage}
               ></ModalTimePicker>
             );
           }}
@@ -130,10 +126,8 @@ const ScheduleScreen = ({ navigation }) => {
       </View>
     </View>
   );
-
   //   ###########################################
   // ########### AS NEEDED ############################
-
   if (medCtx.frequency.value == "As Needed") {
     content = (
       <View>
@@ -157,13 +151,11 @@ const ScheduleScreen = ({ navigation }) => {
       </View>
     );
   }
-
   // ########### END AS NEEDED ############################
   //   ###########################################
 
   //   ###########################################
   // ########### SPECIFIC DAYS ############################
-
   if (medCtx.frequency.value == "Specific Days") {
     content = (
       <View>
@@ -206,7 +198,8 @@ const ScheduleScreen = ({ navigation }) => {
                   iconName="arrowright"
                   iconSize={24}
                   iconColor="black"
-                  value={itemData.item}
+                  value={itemData.item.time}
+                  valueDose={itemData.item.dosage}
                 ></ModalTimePicker>
               );
             }}
@@ -240,7 +233,6 @@ const ScheduleScreen = ({ navigation }) => {
 
   //   ###########################################
   // ########### DAYS INTERVAL ############################
-
   if (medCtx.frequency.value == "Days Interval") {
     content = (
       <View
@@ -298,7 +290,8 @@ const ScheduleScreen = ({ navigation }) => {
                   iconName="arrowright"
                   iconSize={24}
                   iconColor="black"
-                  value={itemData.item}
+                  value={itemData.item.time}
+                  valueDose={itemData.item.dosage}
                 ></ModalTimePicker>
               );
             }}
@@ -322,10 +315,8 @@ const ScheduleScreen = ({ navigation }) => {
       </View>
     );
   }
-
   // ########### END DAYS INTERVAL ############################
   //   ###########################################
-
   return (
     <FullHeightScrollView style={styles.rootContainer}>
       {content}

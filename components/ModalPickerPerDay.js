@@ -16,11 +16,10 @@ const ModalPickerPerDay = ({
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const selectHowOftenHandler = (id) => {
-    // console.log("selectHowOftenHANDLER");
-    // console.log(id);
+  const selectHowOftenHandler = (id, numOfDose) => {
+    numOfDose = medCtx.allHours[0].dosage;
     medCtx.addHowOftenPerDay(id);
-    medCtx.chooseHour(id);
+    medCtx.chooseHour(id, numOfDose);
   };
 
   const pressHandler = () => {
@@ -62,8 +61,6 @@ const ModalPickerPerDay = ({
 
             <View style={styles.rootPickerContainer}>
               <Pressable
-                // style={[styles.button, styles.buttonClose]}
-                // onPress={() => setModalVisible(!modalVisible)}
                 onPress={onPress}
                 style={styles.pickerContainer}
               >

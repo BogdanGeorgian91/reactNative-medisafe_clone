@@ -7,7 +7,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const ModalTimePicker = ({
   children,
   value,
-  title,
+  valueDose,
   iconName,
   iconSize,
   iconColor,
@@ -16,10 +16,10 @@ const ModalTimePicker = ({
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
   const [timeSelected, setTimeSelected] = useState(value);
+  const [hourSelected, setHourSelected] = useState(timeSelected);
 
-  // const [doseCount, setDoseCount] = useState(1);
+  const [doseCount, setDoseCount] = useState(medCtx.allHours[0].dosage);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -35,11 +35,14 @@ const ModalTimePicker = ({
 
   const handleConfirm = (date) => {
     // console.log(timeSelected);
-    let hourSelected =
-      padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes());
-
-    medCtx.addHour(timeSelected, hourSelected);
+    // hourSelected =
+    //   padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes());
+    setHourSelected(
+      padTo2Digits(date.getHours()) + ":" + padTo2Digits(date.getMinutes())
+    );
+    // medCtx.addHour(timeSelected, hourSelected, doseCount);
     hideDatePicker();
+    // console.log(hourSelected);
   };
 
   const pressHandler = () => {
@@ -47,14 +50,14 @@ const ModalTimePicker = ({
   };
 
   const deleteAlarmHandler = () => {
-    setTimeSelected("08:00");
-    // setDoseCount(1);
+    // setTimeSelected("08:00");
+    setDoseCount(1);
     setModalVisible(false);
   };
 
   const doseCountHandler = (num) => {
-    medCtx.addDoseCount(num);
-    setModalVisible(true);
+    // setModalVisible(true);
+    setDoseCount((prevState) => prevState + num);
   };
 
   return (
@@ -80,6 +83,7 @@ const ModalTimePicker = ({
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
+                  medCtx.addHour(timeSelected, hourSelected, doseCount);
                   setModalVisible(!modalVisible);
                 }}
               >
@@ -92,7 +96,7 @@ const ModalTimePicker = ({
               onPress={showDatePicker}
               style={styles.pickerContainer}
             >
-              <Text style={styles.textStyleTime}>{timeSelected}</Text>
+              <Text style={styles.textStyleTime}>{hourSelected}</Text>
 
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
@@ -105,17 +109,11 @@ const ModalTimePicker = ({
             <View>
               <Text style={styles.doseText}>Dose</Text>
               <View style={styles.doseCount}>
-                <Pressable
-                  // onPress={() => setDoseCount(doseCount - 1)}
-                  onPress={() => doseCountHandler(-1)}
-                >
+                <Pressable onPress={() => doseCountHandler(-1)}>
                   <AntDesign name="minussquareo" size={38} color="black" />
                 </Pressable>
-                <Text style={styles.count}>{medCtx.doseCount.value}</Text>
-                <Pressable
-                  // onPress={() => setDoseCount(doseCount + 1)}
-                  onPress={() => doseCountHandler(1)}
-                >
+                <Text style={styles.count}>{doseCount}</Text>
+                <Pressable onPress={() => doseCountHandler(1)}>
                   <AntDesign name="plussquareo" size={38} color="black" />
                 </Pressable>
               </View>
@@ -134,9 +132,7 @@ const ModalTimePicker = ({
       <Pressable onPress={pressHandler} style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.textStyleTime}>{timeSelected}</Text>
-          <Text style={styles.textPill}>
-            Take {medCtx.doseCount.value} pills
-          </Text>
+          <Text style={styles.textPill}>Take {valueDose} pills</Text>
         </View>
 
         <View style={styles.valueContainer}>

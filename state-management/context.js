@@ -720,17 +720,6 @@ const initialState = {
     { id: 99, value: 101 },
     { id: 100, value: 102 },
   ],
-
-  dates: [
-    {
-      id: 1,
-      value: "",
-    },
-    {
-      id: 2,
-      value: "",
-    },
-  ],
   allDays: [
     {
       id: new Date().toString() + Math.random().toString(),
@@ -783,8 +772,8 @@ const initialState = {
     { id: 12, value: "12 times a Day" },
     { id: 24, value: "24 times a Day" },
   ],
-  allHours: ["08:00"],
-
+  
+  allHours: [{ time: "08:00", dosage: 1 }],
   hour: "",
   availableMeds: [],
   med: { id: "", value: "", IsValid: false },
@@ -799,7 +788,6 @@ const initialState = {
   everyDays: { id: 1, value: 2 },
   startDate: { value: moment().format("DD-MMM-YYYY") },
   endDate: { value: moment().format("DD-MMM-YYYY") },
-  doseCount: { value: 1 },
 };
 
 const MedContextProvider = ({ children }) => {
@@ -863,14 +851,17 @@ const MedContextProvider = ({ children }) => {
     dispatch({ type: "ADD_DAYS", payload: { id: id } });
   };
 
-  const chooseHour = (id) => {
-    dispatch({ type: "CHOOSE_HOUR", payload: { id: id } });
+  const chooseHour = (id, numOfDose) => {
+    dispatch({
+      type: "CHOOSE_HOUR",
+      payload: { id: id, numOfDose: numOfDose },
+    });
   };
 
-  const addHour = (hourRemoved, hourSelected) => {
+  const addHour = (hourRemoved, hourSelected, doseNum) => {
     dispatch({
       type: "ADD_HOUR",
-      payload: { values: [hourRemoved, hourSelected] },
+      payload: { values: [hourRemoved, hourSelected, doseNum] },
     });
   };
 
@@ -880,10 +871,6 @@ const MedContextProvider = ({ children }) => {
 
   const addEndDate = (id) => {
     dispatch({ type: "RETURN_END_DATE", payload: id });
-  };
-
-  const addDoseCount = (id) => {
-    dispatch({ type: "ADD_DOSE", payload: id });
   };
 
   return (
@@ -907,7 +894,6 @@ const MedContextProvider = ({ children }) => {
         addNumOfPills: addNumOfPills,
         chooseHour: chooseHour,
         addHour: addHour,
-        addDoseCount: addDoseCount,
       }}
     >
       {children}

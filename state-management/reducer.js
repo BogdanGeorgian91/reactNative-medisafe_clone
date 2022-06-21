@@ -216,26 +216,47 @@ const medReducer = (state, action) => {
     case "ADD_HOUR":
       // console.log(action.payload);
       // console.log(action.payload.values);
-
+      // console.log(state.allHours);
       let hourToRemove = action.payload.values[0];
       let hourToAdd = action.payload.values[1];
+      let doseNumber = action.payload.values[2];
 
       let newHoursArray = state.allHours.filter(
-        (value) => value != hourToRemove
+        (value) => value.time != hourToRemove
       );
 
-      if (!newHoursArray.includes(hourToAdd)) {
-        newHoursArray.push(hourToAdd);
+      // console.log(newHoursArray);
+
+      const newHoursArrInclHourToAdd = newHoursArray.some(
+        (el) => el.time == hourToAdd
+      );
+
+      // if (!newHoursArray.includes(hourToAdd)) {
+      //   newHoursArray.push(hourToAdd);
+      // } else {
+      //   newHoursArray.splice(newHoursArray.indexOf(hourToAdd), 1);
+      //   newHoursArray.push(hourToAdd);
+      // }
+
+      if (!newHoursArrInclHourToAdd) {
+        newHoursArray.push({ time: hourToAdd, dosage: doseNumber });
       } else {
-        newHoursArray.splice(newHoursArray.indexOf(hourToAdd), 1);
-        newHoursArray.push(hourToAdd);
+        let hourExistsIndex = newHoursArray.indexOf(
+          (el) => el.time == hourToAdd
+        );
+        newHoursArray.splice(hourExistsIndex, 1);
+        newHoursArray.push({
+          ...newHoursArray[hourExistsIndex],
+          time: hourToAdd,
+        });
       }
 
       let workingArray = [];
       for (let i = 0; i < newHoursArray.length; i++) {
         let hourUserSelected = {
           id: i,
-          date: `Jan 1 2022 ${newHoursArray[i]}:00`,
+          date: `Jan 1 2022 ${newHoursArray[i].time}:00`,
+          dosage: newHoursArray[i].dosage,
         };
         workingArray.push(hourUserSelected);
       }
@@ -246,9 +267,14 @@ const medReducer = (state, action) => {
         return c - d;
       });
 
-      let finalNewHoursArray = workingArray.map(
-        (el) => (el = el.date.slice(11, 16))
-      );
+      // console.log(workingArray);
+
+      let finalNewHoursArray = workingArray.map((el) => ({
+        time: el.date.slice(11, 16),
+        dosage: el.dosage,
+      }));
+
+      // console.log(finalNewHoursArray);
 
       return {
         ...state,
@@ -262,16 +288,10 @@ const medReducer = (state, action) => {
 
     case "CHOOSE_HOUR":
       // console.log(action.payload);
-      // console.log(action.payload.id);
-
       let numPerDay = action.payload.id;
-      // console.log(numPerDay);
-
+      let numOfDoses = action.payload.numOfDose;
       let startHour = moment("08:00", "HHmm").format("HH:mm");
-      // console.log(startHour);
-
       let hours = [startHour];
-      // console.log(hours);
 
       const renderHours = (numPerDay) => {
         let newHour;
@@ -329,25 +349,24 @@ const medReducer = (state, action) => {
       hoursArray = renderHours(numPerDay);
 
       if (numPerDay == 1) {
-        hoursArray = ["08:00"];
+        hoursArray = [startHour];
       }
 
-      // console.log(hours);
-      // console.log(state.hour);
       // console.log(hoursArray);
 
-      return {
-        ...state,
-        allHours: hoursArray,
-      };
+      let allHoursObject = [];
+      let hourObj;
 
-    case "ADD_DOSE":
-      console.log(action.payload);
+      let allHoursToBeInserted = hoursArray.map((el) => {
+        hourObj = { time: el, dosage: 1 };
+        allHoursObject.push(hourObj);
+      });
+
+      // console.log(allHoursObject);
+
       return {
         ...state,
-        doseCount: {
-          value: state.doseCount.value + action.payload,
-        },
+        allHours: allHoursObject,
       };
 
     default:
