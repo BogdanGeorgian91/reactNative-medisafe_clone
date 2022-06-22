@@ -787,7 +787,7 @@ const initialState = {
   timesAday: { id: 1, value: "Once a Day" },
   everyDays: { id: 1, value: 2 },
   startDate: { value: moment().format("DD-MMM-YYYY") },
-  endDate: { value: moment().format("DD-MMM-YYYY") },
+  endDate: { value: "" },
 };
 
 const MedContextProvider = ({ children }) => {

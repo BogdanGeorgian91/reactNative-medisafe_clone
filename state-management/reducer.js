@@ -226,10 +226,13 @@ const medReducer = (state, action) => {
       );
 
       // console.log(newHoursArray);
+      // console.log(hourToAdd);
 
       const newHoursArrInclHourToAdd = newHoursArray.some(
         (el) => el.time == hourToAdd
       );
+
+      // console.log(newHoursArrInclHourToAdd);
 
       // if (!newHoursArray.includes(hourToAdd)) {
       //   newHoursArray.push(hourToAdd);
@@ -241,13 +244,15 @@ const medReducer = (state, action) => {
       if (!newHoursArrInclHourToAdd) {
         newHoursArray.push({ time: hourToAdd, dosage: doseNumber });
       } else {
-        let hourExistsIndex = newHoursArray.indexOf(
+        let hourExistsIndex = newHoursArray.findIndex(
           (el) => el.time == hourToAdd
         );
-        newHoursArray.splice(hourExistsIndex, 1);
-        newHoursArray.push({
-          ...newHoursArray[hourExistsIndex],
+        // console.log(hourExistsIndex);
+        // console.log(newHoursArray);
+        // console.log(newHoursArray[hourExistsIndex]);
+        newHoursArray.splice(hourExistsIndex, 1, {
           time: hourToAdd,
+          dosage: doseNumber,
         });
       }
 

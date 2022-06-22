@@ -8,6 +8,7 @@ const ModalStartDatePicker = () => {
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [startingDate, setStartingDate] = useState("");
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -18,8 +19,8 @@ const ModalStartDatePicker = () => {
   };
 
   const handleConfirm = (date) => {
-    // console.log(moment(date).format("DD-MM-YYYY"));
-    medCtx.addStartDate(moment(date).format("DD-MMM-YYYY"));
+    setStartingDate(moment(date).format("DD-MMM-YYYY"));
+    // medCtx.addStartDate(moment(date).format("DD-MMM-YYYY"));
     hideDatePicker();
   };
 
@@ -53,6 +54,7 @@ const ModalStartDatePicker = () => {
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
+                  medCtx.addStartDate(startingDate);
                   setModalVisible(!modalVisible);
                 }}
               >
@@ -63,7 +65,7 @@ const ModalStartDatePicker = () => {
             <Pressable style={styles.pickerContainer}>
               <Pressable onPress={showDatePicker}>
                 <Text style={styles.textStyleTime}>
-                  {medCtx.startDate.value}
+                  {startingDate ? startingDate : medCtx.startDate.value}
                 </Text>
               </Pressable>
               <DateTimePickerModal

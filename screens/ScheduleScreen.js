@@ -1,5 +1,5 @@
-import React, { useContext, useLayoutEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useContext, useLayoutEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import HeaderButton from "../components/HeaderButton";
 import ModalPickerPerDay from "../components/ModalPickerPerDay";
 import ModalPickerFrequency from "../components/ModalPickerFrequency";
@@ -15,6 +15,10 @@ import { MedContext } from "../state-management/context";
 
 const ScheduleScreen = ({ navigation }) => {
   const medCtx = useContext(MedContext);
+  const [showEndDate, setShowEndDate] = useState(false);
+  const [showModalChild, setShowModalChild] = useState(true);
+
+  console.log("FUCKING RE-RENDERED");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,6 +65,28 @@ const ScheduleScreen = ({ navigation }) => {
   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
   // console.log(diffInDays);
 
+  let endDateContent = (
+    <Pressable
+      style={styles.endDateContent}
+      onPress={() => {
+        setShowEndDate(true);
+        // setShowModalChild(false);
+      }}
+    >
+      <Text style={styles.endDateContentOne}>Tap to set</Text>
+      <Text style={styles.endDateContentTwo}>end date.</Text>
+    </Pressable>
+  );
+
+  let newDateContent = (
+    <View style={styles.endDateContainer}>
+      <ModalEndDatePicker
+        daysDifference={diffInDays}
+        modalShown={showModalChild ? true : false}
+      />
+    </View>
+  );
+
   let content = (
     <View style={styles.rootContainer}>
       <View style={styles.container}>
@@ -94,8 +120,8 @@ const ScheduleScreen = ({ navigation }) => {
           keyExtractor={(item) =>
             new Date().toString() + Math.random().toString()
           }
-          renderItem={(itemData, index) => {
-            console.log(itemData);
+          renderItem={(itemData) => {
+            // console.log(itemData);
 
             return (
               <ModalTimePicker
@@ -117,10 +143,12 @@ const ScheduleScreen = ({ navigation }) => {
             <ModalStartDatePicker />
           </View>
 
+          {/* {showEndDate ? newDateContent : endDateContent} */}
+
           <View style={styles.endDateContainer}>
-            <Text style={styles.dateText}>Ends</Text>
-            <ModalEndDatePicker />
-            <Text>({diffInDays} days)</Text>
+            {/* <Text style={styles.dateText}>Ends</Text> */}
+            <ModalEndDatePicker daysDifference={diffInDays} />
+            {/* <Text>({diffInDays} days)</Text> */}
           </View>
         </View>
       </View>
@@ -191,7 +219,6 @@ const ScheduleScreen = ({ navigation }) => {
             }
             renderItem={(itemData) => {
               // console.log(itemData);
-              // console.log(itemData.item);
 
               return (
                 <ModalTimePicker
@@ -235,10 +262,7 @@ const ScheduleScreen = ({ navigation }) => {
   // ########### DAYS INTERVAL ############################
   if (medCtx.frequency.value == "Days Interval") {
     content = (
-      <View
-        value={{ startDateValue, endDateValue }}
-        style={styles.rootContainer}
-      >
+      <View style={styles.rootContainer}>
         <View style={styles.container}>
           <ModalPickerFrequency
             iconName="arrowright"
@@ -283,7 +307,6 @@ const ScheduleScreen = ({ navigation }) => {
             }
             renderItem={(itemData) => {
               // console.log(itemData);
-              console.log(itemData.item);
 
               return (
                 <ModalTimePicker
@@ -391,6 +414,26 @@ const styles = StyleSheet.create({
   },
   startEndContainer: {
     marginBottom: 15,
+  },
+  endDateContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  endDateContentOne: {
+    marginRight: 4,
+    fontSize: 19,
+  },
+  endDateContentTwo: {
+    fontSize: 19,
+    color: "blue",
+  },
+  endDateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  dateText: {
+    fontSize: 19,
+    marginRight: 7,
   },
 });
 

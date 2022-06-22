@@ -4,10 +4,11 @@ import { MedContext } from "../state-management/context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
 
-const ModalEndDatePicker = () => {
+const ModalEndDatePicker = ({ daysDifference }) => {
   const medCtx = useContext(MedContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [finalDate, setFinalDate] = useState("");
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -18,7 +19,8 @@ const ModalEndDatePicker = () => {
   };
 
   const handleConfirm = (date) => {
-    medCtx.addEndDate(moment(date).format("DD-MMM-YYYY"));
+    setFinalDate(moment(date).format("DD-MMM-YYYY"));
+    // medCtx.addEndDate(moment(date).format("DD-MMM-YYYY"));
     hideDatePicker();
   };
 
@@ -52,6 +54,7 @@ const ModalEndDatePicker = () => {
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
+                  medCtx.addEndDate(finalDate);
                   setModalVisible(!modalVisible);
                 }}
               >
@@ -61,7 +64,9 @@ const ModalEndDatePicker = () => {
 
             <Pressable style={styles.pickerContainer}>
               <Pressable onPress={showDatePicker}>
-                <Text style={styles.textStyleTime}>{medCtx.endDate.value}</Text>
+                <Text style={styles.textStyleTime}>
+                  {finalDate ? finalDate : moment().format("DD-MMM-YYYY")}
+                </Text>
               </Pressable>
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
@@ -76,7 +81,18 @@ const ModalEndDatePicker = () => {
 
       <Pressable onPress={pressHandler} style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>{medCtx.endDate.value}</Text>
+          {medCtx.endDate.value ? (
+            <View style={styles.endDateContainer}>
+              <Text style={styles.dateText}>Ends</Text>
+              <Text style={styles.text}>{medCtx.endDate.value}</Text>
+              <Text>({daysDifference} days)</Text>
+            </View>
+          ) : (
+            <View style={styles.endDateContent}>
+              <Text style={styles.endDateContentOne}>Tap to set</Text>
+              <Text style={styles.endDateContentTwo}>end date.</Text>
+            </View>
+          )}
         </View>
       </Pressable>
     </View>
@@ -159,6 +175,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#90EE90",
     borderRadius: 20,
     width: 200,
+  },
+  textContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  endDateContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 20,
+  },
+  endDateContentOne: {
+    marginRight: 4,
+    fontSize: 19,
+  },
+  endDateContentTwo: {
+    fontSize: 19,
+    color: "blue",
+  },
+  endDateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 20,
+  },
+  dateText: {
+    fontSize: 19,
+    marginRight: 7,
   },
 });
 
